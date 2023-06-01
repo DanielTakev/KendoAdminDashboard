@@ -1,13 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { DataBindingDirective } from '@progress/kendo-angular-grid';
-import { process } from '@progress/kendo-data-query';
-import { employees } from './employees';
-import { images } from './images';
-
-@Component({
-  selector: 'my-app',
-  template: `
-    <kendo-grid
+<kendo-grid
       [kendoGridBinding]="gridView"
       kendoGridSelectBy="id"
       [(selectedKeys)]="mySelection"
@@ -17,14 +8,14 @@ import { images } from './images';
       [groupable]="true"
       [reorderable]="true"
       [resizable]="true"
-      [height]="500"
+      [height]="700"
       [columnMenu]="{ filter: true }"
     >
       <ng-template kendoGridToolbarTemplate>
-        <input [style.width.px]="165" placeholder="Search in all columns..." kendoTextBox (input)="onFilter($event)"/>
+        <input id="inputId" [style.width.px]="165" placeholder="Search in all columns..." kendoTextBox (input)="onFilter($event)"/>
         <kendo-grid-spacer></kendo-grid-spacer>
-        <button kendoGridExcelCommand type="button" icon="file-excel">Export to Excel</button>
-        <button kendoGridPDFCommand icon="file-pdf">Export to PDF</button>
+        <button id="exportToExcelId" kendoGridExcelCommand type="button" icon="file-excel">Export to Excel</button>
+        <button id="exportToPdfId" kendoGridPDFCommand icon="file-pdf">Export to PDF</button>
       </ng-template>
       <kendo-grid-checkbox-column
         [width]="45"
@@ -126,98 +117,4 @@ import { images } from './images';
       <kendo-grid-pdf fileName="Employees.pdf" [repeatHeaders]="true"></kendo-grid-pdf>
       <kendo-grid-excel fileName="Employees.xlsx"></kendo-grid-excel>
     </kendo-grid>
-  `,
-  styles: [`
-    .customer-photo {
-      display: inline-block;
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background-size: 32px 35px;
-      background-position: center center;
-      vertical-align: middle;
-      line-height: 32px;
-      box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0,0,0,.2);
-      margin-left: 5px;
-    }
-
-    .customer-name {
-      display: inline-block;
-      vertical-align: middle;
-      line-height: 32px;
-      padding-left: 10px;
-    }
-
-    .red {
-      color: #d9534f;
-    }
-
-    .text-bold {
-      font-weight: 600;
-    }
-  `]
-})
-export class AppComponent implements OnInit {
-  @ViewChild(DataBindingDirective) dataBinding: DataBindingDirective;
-  public gridData: unknown[] = employees;
-  public gridView: unknown[];
-
-  public mySelection: string[] = [];
-
-  public ngOnInit(): void {
-    this.gridView = this.gridData;
-  }
-
-  public onFilter(input: Event): void {
-    const inputValue = (input.target as HTMLInputElement).value;
-
-    this.gridView = process(this.gridData, {
-      filter: {
-        logic: "or",
-        filters: [
-          {
-            field: 'full_name',
-            operator: 'contains',
-            value: inputValue
-          },
-          {
-            field: 'job_title',
-            operator: 'contains',
-            value: inputValue
-          },
-          {
-            field: 'budget',
-            operator: 'contains',
-            value: inputValue
-          },
-          {
-            field: 'phone',
-            operator: 'contains',
-            value: inputValue
-          },
-          {
-            field: 'address',
-            operator: 'contains',
-            value: inputValue
-          }
-        ]
-      }
-    }).data;
-
-    this.dataBinding.skip = 0;
-  }
-
-  public photoURL(dataItem: {img_id: string, gender: string}): string {
-    const code: string = dataItem.img_id + dataItem.gender;
-    const image: {[Key: string]: string} = images;
-
-    return image[code];
-  }
-
-  public flagURL(dataItem: {country: string}): string {
-    const code: string = dataItem.country;
-    const image: {[Key: string]: string} = images;
-
-    return image[code];
-  }
-}
+  
