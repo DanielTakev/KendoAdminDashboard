@@ -43,7 +43,7 @@ export class ExcelFileSystemUtils {
         return -1;
     }
 
-   /**
+    /**
     * Get row and column indexes for cell by value
     * @params {Workbook} workbook
     * @params {number} startRow
@@ -65,7 +65,7 @@ export class ExcelFileSystemUtils {
         return result.set(-1, -1);
     }
 
-   /**
+    /**
     * Get workbook
     * @params {any} download
     */
@@ -92,7 +92,7 @@ export class ExcelFileSystemUtils {
         return -1;
     }
 
-   /**
+    /**
     * Get sheet value at sell
     * @params {Worksheet} sheet
     * @params {number} row
@@ -102,7 +102,7 @@ export class ExcelFileSystemUtils {
         return sheet.getRow(row).getCell(col).value;
     }
 
-   /**
+    /**
     * Get sheet
     * @params {Workbook} workbook
     * @params {string} sheetName
@@ -111,7 +111,7 @@ export class ExcelFileSystemUtils {
         return workbook.getWorksheet(sheetName);
     }
 
-   /**
+    /**
     * Get value at cell
     * @params {Workbook} workbook
     * @params {number} row
@@ -126,7 +126,7 @@ export class ExcelFileSystemUtils {
         return sheet.getRow(row).getCell(col).value;
     }
 
-   /**
+    /**
     * Get values from a row
     * @params {Workbook} workbook
     * @params {number} row
@@ -144,7 +144,7 @@ export class ExcelFileSystemUtils {
         return values;
     }
 
-   /**
+    /**
     * Check if value exists in a specific column
     * @params {Workbook} workbook
     * @params {number} column

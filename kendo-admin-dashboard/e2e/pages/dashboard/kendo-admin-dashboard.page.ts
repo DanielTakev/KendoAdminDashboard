@@ -1,7 +1,6 @@
-import {Download, expect, Locator, Page} from '@playwright/test';
+import { Locator, Page} from '@playwright/test';
 import { BasePage } from '../common/base.page';
 import { StringUtils } from '../utils/string.utils';
-import { ExcelFileSystemUtils } from '../utils/excel.utils';
 
 export class KendoAdminDashboardPage extends BasePage {
  
@@ -140,7 +139,7 @@ export class KendoAdminDashboardPage extends BasePage {
     }
 
     /**
-    * Teardown method for removing all dropped filters if
+    * Teardown method for removing all dropped filters if the remove button is visible
     */
     async clearAllDropTargets(): Promise<void> {
         if (await this.isElementVisibleOnPage(this.removeDropTargetButton, {timeout: 2000})) {
