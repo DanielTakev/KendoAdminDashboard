@@ -10,7 +10,7 @@ test.describe('Kendo Admin Dashboard - Download Functonality', async () => {
     const downloadedPdfFileName = `Employees*.pdf`;
     const downloadedExcelFileName = `Employees*.xlsx`;
     const excelSheet1Name = 'Sheet1';
-    const expectedCellValueBeforeReordering = 'Sig Jeannel';
+    const expectedCellValueBeforeReordering = 'Pesho';
     const columnToDragAndDrop = 'Rating';
  
     test.beforeAll(async ({browser}) => {
@@ -42,7 +42,8 @@ test.describe('Kendo Admin Dashboard - Download Functonality', async () => {
         let workbook = await ExcelFileSystemUtils.getWorkbook(download);
         let excelA3Value: CellValue = ExcelFileSystemUtils.getValueAtCell(workbook, 3, 1, excelSheet1Name);
         // Check the A3 cell value before reordering
-        expect.soft(excelA3Value as string, `Expected cell value ${expectedCellValueBeforeReordering} is not correct.`).toEqual(expectedCellValueBeforeReordering);
+        expect.soft(excelA3Value as string, `Expected cell value ${expectedCellValueBeforeReordering} is not correct. 
+            The actual value is: ${excelA3Value as string}`).toEqual(expectedCellValueBeforeReordering);
 
         await kendoAdminDashboardPage.dragAndDropByColumnName(columnToDragAndDrop);
 
@@ -53,6 +54,7 @@ test.describe('Kendo Admin Dashboard - Download Functonality', async () => {
         ]);
         workbook = await ExcelFileSystemUtils.getWorkbook(download);
         excelA3Value = ExcelFileSystemUtils.getValueAtCell(workbook, 3, 1, excelSheet1Name);
-        expect(excelA3Value as string, `Expected cell value ${columnToDragAndDrop} is not correct.`).toEqual(columnToDragAndDrop + ": 1");
+        expect(excelA3Value as string, `Expected cell value ${columnToDragAndDrop} is not correct. 
+            The actual value is: ${excelA3Value as string}`).toEqual(columnToDragAndDrop + ": 1");
     });
 });

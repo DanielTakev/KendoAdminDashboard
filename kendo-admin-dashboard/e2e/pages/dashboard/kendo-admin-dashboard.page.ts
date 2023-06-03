@@ -15,8 +15,9 @@ export class KendoAdminDashboardPage extends BasePage {
     private readonly searchBar = this.kendoGridToolbar + '#inputId';
     private readonly dropTargetPanel = 'kendo-grid-group-panel';
     private readonly gridList = this.kendoGrid + 'kendo-grid-list ';
-    private readonly gridRows = this.kendoGrid + 'tr.k-table-row';
-    private readonly reorderedRows = '.k-reset';
+    private readonly gridAllRows = this.kendoGrid + 'tr.k-table-row';
+    private readonly gridDataRows = this.kendoGrid + 'tbody tr.k-table-row'
+    private readonly reorderedRows = this.kendoGrid + 'tr[kendogridgroupheader] td .k-reset';
     private readonly gridNoRecords = this.gridList + '.k-grid-norecords';
     private readonly removeDropTargetButton = '.k-chip-remove-action';
     private readonly kendoPager = this.kendoGrid + 'kendo-pager';
@@ -84,8 +85,8 @@ export class KendoAdminDashboardPage extends BasePage {
     * @param {string} rowSelector
     */
     async getGridRowElement(rowValues: Array<string>): Promise<Locator | null> {
-        await this.waitElementToBeVisible(this.gridRows);
-        const itemsList: Locator = this.page.locator(this.gridRows);
+        await this.waitElementToBeVisible(this.gridAllRows);
+        const itemsList: Locator = this.page.locator(this.gridAllRows);
         const rowCount = await itemsList.count();
         if (rowCount === 0) {
            process.stdout.write('The grid does not contain any row\n');
@@ -139,10 +140,29 @@ export class KendoAdminDashboardPage extends BasePage {
     }
 
     /**
+    * Get the first reordered grid header row index by column name
+    * @param {string} columnName
+    */
+    async getReorderedGridHeaderIndex(columnName: string): Promise<string | null> {
+        await this.waitElementToBeVisible(this.reorderedRows);
+        const reorderedColumnHeader = this.page.locator("//p[@class='k-reset' and contains(text(),'" +
+            columnName + "')]/ancestor::tr[@kendogridgroupheader]").first();
+        return this.getAttributeByLocator(reorderedColumnHeader, 'aria-rowindex');
+    }
+
+    /**
+    * Get only the rows which contains data, the table headers are excluded
+    */
+    async getOnlyDataGridRowsCount(): Promise<number> {
+        await this.waitElementToBeVisible(this.gridDataRows, {timeout: 2000});
+        return this.countElements(this.gridDataRows);
+    }
+
+    /**
     * Teardown method for removing all dropped filters if the remove button is visible
     */
     async clearAllDropTargets(): Promise<void> {
-        if (await this.isElementVisibleOnPage(this.removeDropTargetButton, {timeout: 2000})) {
+        if (await this.isElementVisibleOnPageByLocator(this.page.locator(this.removeDropTargetButton).first())) {
             const removeTargetButtonsCount = await this.page.locator(this.removeDropTargetButton).count();
             for (let i = 0; i < removeTargetButtonsCount; i++) {
                 await this.clickElement(this.removeDropTargetButton);

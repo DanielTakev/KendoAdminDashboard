@@ -17,7 +17,7 @@ export class BasePage {
     }
 
     /**
-    * Is element visible on the page
+    * Is element visible on the page by Selector
     * @param elementSelector
     * @param options
     */
@@ -27,6 +27,20 @@ export class BasePage {
         } else {
             return this.page.isVisible(elementSelector);
         }
+    }
+
+    /**
+    * Is element visible on the page by Locator
+    * @param {Locator} elementLocator
+    * @param {number} newTimeout
+    */
+    async isElementVisibleOnPageByLocator(elementLocator: Locator, newTimeout: number = 2000): Promise<boolean> {
+        try {
+            await elementLocator.waitFor({state: 'visible', timeout: newTimeout});
+        } catch (e) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -64,7 +78,7 @@ export class BasePage {
         } else {
             elementLocator = this.page.locator(elementSelector).first();
         }
-        await elementLocator.waitFor({state: 'attached', timeout: newTimeout});
+        await this.waitElementToBeAttachedByLocator(elementLocator);
     }
 
     /**
@@ -238,5 +252,32 @@ export class BasePage {
             expect(downloadFailure, `Download failure detected: "${downloadFailure}"\n`).toBeNull();
         }
         return downloadObject;
+    }
+
+    /**
+    * Get specific attribute from an element
+    * @param elementSelector
+    * @param attributeName
+    * @param options
+    */
+    async getAttribute(elementSelector: string, attributeName: string, options?: any): Promise<string | null> {
+        if (options) {
+            const element: Locator = this.page.locator(elementSelector, options);
+            await this.waitElementToBeAttachedByLocator(element.first());
+            return element.getAttribute(attributeName);
+        } else {
+            return this.page.getAttribute(elementSelector, attributeName);
+        }
+    }
+
+    /**
+     * Get specific attribute from an element
+     * @param elementLocator
+     * @param newTimeout
+     * @param attributeName
+     */
+    async getAttributeByLocator(elementLocator: Locator, attributeName: string, newTimeout: number = 1000): Promise<string | null> {
+        await this.waitElementToBeAttachedByLocator(elementLocator);
+        return elementLocator.getAttribute(attributeName, {timeout: newTimeout});
     }
 }
