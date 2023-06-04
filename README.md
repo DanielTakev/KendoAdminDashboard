@@ -2,6 +2,7 @@
 
 * Created admin dashboard grid with Kendo components. 
 * Added E2E tests suite with sample tests and test reports. The reports are only available on local execution (the folders are `git ignored`).
+* The page setup is handled into the `prerequisites-setup.ts` file where the global const `test` is extended and all prerequisites are done before the test execution. 
 - Technologies: TypeScript, HTML, CSS and Playwright for E2E testing
 
 To start the local server run: 
