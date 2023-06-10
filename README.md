@@ -1,6 +1,7 @@
 # KendoAdminDashboard
 
 * Created admin dashboard with Kendo components. 
+* URL: https://danieltakev.github.io/KendoAdminDashboard/
 
 Focus on the Playwright functionalities: 
 * Standard design pattern: Page Object Model
