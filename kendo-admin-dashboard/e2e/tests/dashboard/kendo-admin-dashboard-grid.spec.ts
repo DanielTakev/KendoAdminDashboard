@@ -2,7 +2,7 @@ import { test, expect } from "@e2ePages/common/prerequisites-setup";
 
 test.describe('Kendo Admin Dashboard', async () => {
 
-    test.beforeEach(async ({page, pages}) => {
+    test.beforeEach(async ({page}) => {
         await page.goto('/KendoAdminDashboard');
     });
 
@@ -11,11 +11,11 @@ test.describe('Kendo Admin Dashboard', async () => {
 
     test.describe('Drag and Drop functionality', async () => {
 
-        test.afterEach(async ({page, pages}) => {
+        test.afterEach(async ({pages}) => {
             await pages.kendoAdminDashboardPage.clearAllDropTargets();
         });
 
-        test('one dragged column reorder the grid structure', async ({page, pages, columnNamesEnum}) => {
+        test('one dragged column reorder the grid structure', async ({pages, columnNamesEnum}) => {
             //await page.goto('/KendoAdminDashboard');
             await pages.kendoAdminDashboardPage.dragAndDropByColumnName(columnNamesEnum.JOB_TITLE);
             // Here we assume that we have a control on the test data and after reordering the result is always the same
@@ -24,7 +24,7 @@ test.describe('Kendo Admin Dashboard', async () => {
             expect(jobTitleRowIndex, `The actual row index is: ${jobTitleRowIndex}`).toEqual("3");
         });
 
-        test('each additional dragged column is positioned as a child row', async ({page, pages, columnNamesEnum}) => {
+        test('each additional dragged column is positioned as a child row', async ({pages, columnNamesEnum}) => {
             await pages.kendoAdminDashboardPage.dragAndDropByColumnName(columnNamesEnum.CONTACT_NAME);
             await pages.kendoAdminDashboardPage.dragAndDropByColumnName(columnNamesEnum.COUNTRY);
             await pages.kendoAdminDashboardPage.dragAndDropByColumnName(columnNamesEnum.ENGAGEMENT);
@@ -40,7 +40,7 @@ test.describe('Kendo Admin Dashboard', async () => {
     });
 
     test.describe('The search bar', async () => {
-        test('is able to filter unique by partial address value', async ({page, pages}) => {
+        test('is able to filter unique by partial address value', async ({pages}) => {
             await pages.kendoAdminDashboardPage.setTextIntoKendoGridSearchBar(testSearchPhraseByAddress);
             expect.soft(await pages.kendoAdminDashboardPage.hasRowValues(testDatafilteredByAddress), `The expected result is not shown into the grid.`).toBeTruthy();
             const resultsCount = await pages.kendoAdminDashboardPage.getOnlyDataGridRowsCount();

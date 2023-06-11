@@ -15,7 +15,7 @@ export class StringUtils {
     }
 
    /**
-    * Check whether array of strings @expectedArray appears in the @actualArray.
+    * Check whether array of strings @expectedArray appears in the @actualArray
     * @param {Array<string>} actualArray
     * @param {Array<string>} expectedArray
     * @return {boolean} If any of the strings in @expectedArray don't match any in the @actualArray, then we return false, otherwise return true.

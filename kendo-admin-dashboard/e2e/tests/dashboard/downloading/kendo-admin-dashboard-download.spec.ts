@@ -10,11 +10,11 @@ test.describe('Kendo Admin Dashboard - Download Functonality', async () => {
     const expectedCellValueBeforeReordering = 'Pesho';
     const columnToDragAndDrop = 'Rating';
  
-    test.beforeEach(async ({page, pages}) => {
+    test.beforeEach(async ({page}) => {
         await page.goto('/KendoAdminDashboard');
     });
 
-    test('successfully download PDF file', async ({page, pages}) => {
+    test('successfully download PDF file', async ({pages}) => {
         const [download] = await Promise.all([
             pages.kendoAdminDashboardPage.downloadEvent(),
             pages.kendoAdminDashboardPage.clickExportToPdfButton()
@@ -22,7 +22,7 @@ test.describe('Kendo Admin Dashboard - Download Functonality', async () => {
         expect(download.suggestedFilename(), `Downloading PDF file ${download.suggestedFilename()}`).toMatch(new RegExp(downloadedPdfFileName));
     });
 
-    test('Drag and Drop functionality updates the internal Excel file structure', async ({page, pages}) => {
+    test('Drag and Drop functionality updates the internal Excel file structure', async ({pages}) => {
         let [download] = await Promise.all([
             pages.kendoAdminDashboardPage.downloadEvent(),
             pages.kendoAdminDashboardPage.clickExportToExcelButton()

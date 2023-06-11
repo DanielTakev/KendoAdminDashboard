@@ -3,13 +3,13 @@ import { BasePage } from '@e2ePages/common/base.page';
 import { KendoAdminDashboardPage } from '@e2ePages/dashboard/kendo-admin-dashboard.page';
 import { ColumnNamesEnum } from '@e2eEnums/columns.enum'
 
-export type TestStepsPages = {
+type TestStepsPages = {
     basePage: BasePage | undefined;
     kendoAdminDashboardPage: KendoAdminDashboardPage | undefined
 };
 
 type MyFixtures = {
-   pages: Partial<TestStepsPages>;
+   pages: Required<TestStepsPages>;
    columnNamesEnum: typeof ColumnNamesEnum
 }
 
